@@ -16,11 +16,11 @@ export API_KEY=changeThis
 export DEBUG=false
 
 do_start () {
- start-stop-daemon --start --chuid pi --background --oknodo --exec /home/pi/RaspberryRadioPrinter/.envs/venv/bin/python /home/pi/RaspberryRadioPrinter/RaspberryRadioXively.py
+ start-stop-daemon --start --chuid pi --background --oknodo --exec /home/pi/RaspberryRadioPrinter/.envs/venv/bin/python /home/pi/RaspberryRadioPrinter/RaspberryRadioPrinterXively.py
 }
 
 do_stop () {
- start-stop-daemon --stop --oknodo --exec /home/pi/RaspberryRadioPrinter/.envs/venv/bin/python /home/pi/RaspberryRadioPrinter/RaspberryRadioXively.py
+ start-stop-daemon --stop --oknodo --exec /home/pi/RaspberryRadioPrinter/.envs/venv/bin/python /home/pi/RaspberryRadioPrinter/RaspberryRadioPrinterXively.py
 }
 
 do_status () {
