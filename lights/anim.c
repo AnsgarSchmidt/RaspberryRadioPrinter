@@ -4,12 +4,15 @@
 #include "led.h"
 #include "spi.h"
 #include "anim.h"
+#include "helper.h"
 
 void anim_all(params para)
 {
   uint8_t  index;	
   uint32_t loop;
+  uint32_t loop2;
   uint8_t  led[nLEDs];
+  uint8_t  ledCW[] = {LEFT_BOTTOM, LEFT_MIDDLE, LEFT_TOP, RIGHT_TOP, RIGHT_MIDDLE, RIGHT_BOTTOM, CIRCLE_RIGHT_BOTTOM, CIRCLE_LEFT_BOTTOM, CIRCLE_LEFT_TOP, CIRCLE_RIGHT_TOP, CIRCLE_RIGHT_BOTTOM, CIRCLE_LEFT_BOTTOM};
 	
   switch(para.sub)
   {
@@ -36,28 +39,30 @@ void anim_all(params para)
 	case PARAM_SUB_CLOCK_WISE:
 	  for(loop=0;loop < para.loopCounter; loop++)
 	  {
-		  led[0] = 0xFF;
-		  led[1] = 0xFF;
-		  led[2] = 0xFF;
-		  led[3] = 0xFF;
-		  led[4] = 0xFF;
-		  led[5] = 0x00;
-		  led[6] = 0x00;
-		  led[7] = 0x00;
-		  led[8] = 0x00;
-		  led[9] = 0x00;
-		  led[10] = 0x00;
-		  led[11] = 0x00;
-		  led[12] = 0x00;
-		  led[13] = 0x00;
-		  led[14] = 0x00;
-		  led[15] = 0x00;
-		  led[16] = 0x00;
-  		  led[17] = 0xFF;
-
-		  loadWS2803(led);
-          usleep(1000 * para.sleepTime);         		  
+		  for(loop2=0; loop2< arraysize(ledCW);loop2++){
+			  for(index = 0; index < nLEDs;index++)
+			  {
+				led[index] = 0;
+			  }
+              led[ledCW[loop2]] = (uint8_t)(0xFF & para.pwm);			  
+			  loadWS2803(led);
+			  usleep(1000 * para.sleepTime);         		  		  
+		  }
 	  }
+	  break;
+	case PARAM_SUB_COUNTER_CLOCK_WISE:
+	  for(loop=0;loop < para.loopCounter; loop++)
+	  {
+		  for(loop2=0; loop2 < arraysize(ledCW)+1;loop2++){
+			  for(index = 0; index < nLEDs;index++)
+			  {
+				led[index] = 0;
+			  }
+              led[ledCW[arraysize(ledCW) - loop2]] = (uint8_t)(0xFF & para.pwm);			  
+			  loadWS2803(led);
+			  usleep(1000 * para.sleepTime);         		  		  
+		  }
+	  }	
 	  break;
 	default:
 	  break;
