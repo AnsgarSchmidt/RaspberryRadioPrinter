@@ -33,6 +33,32 @@ void anim_all(params para)
         usleep(1000 * para.sleepTime);         
       }
 	  break;
+	case PARAM_SUB_CLOCK_WISE:
+	  for(loop=0;loop < para.loopCounter; loop++)
+	  {
+		  led[0] = 0xFF;
+		  led[1] = 0xFF;
+		  led[2] = 0xFF;
+		  led[3] = 0xFF;
+		  led[4] = 0xFF;
+		  led[5] = 0x00;
+		  led[6] = 0x00;
+		  led[7] = 0x00;
+		  led[8] = 0x00;
+		  led[9] = 0x00;
+		  led[10] = 0x00;
+		  led[11] = 0x00;
+		  led[12] = 0x00;
+		  led[13] = 0x00;
+		  led[14] = 0x00;
+		  led[15] = 0x00;
+		  led[16] = 0x00;
+  		  led[17] = 0xFF;
+
+		  loadWS2803(led);
+          usleep(1000 * para.sleepTime);         		  
+	  }
+	  break;
 	default:
 	  break;
   }
