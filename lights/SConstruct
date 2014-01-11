@@ -1,0 +1,10 @@
+env = Environment()
+
+sources = Split("""
+anim.c
+helper.c
+lights.c
+spi.c
+""")
+object_list = env.Object(source = sources)
+env.Program( target = 'lights', source = object_list )
