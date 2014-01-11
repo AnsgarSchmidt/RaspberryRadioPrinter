@@ -1,3 +1,6 @@
+#ifndef PARAMETER_H_
+#define PARAMETER_H_
+
 #define PARAM_APPNAME     0
 #define PARAM_MASTER      1
 #define PARAM_SUB         2
@@ -10,4 +13,15 @@
 #define PARAM_MASTER_CIRCLE   1
 #define PARAM_MASTER_SURROUND 2
 #define PARAM_MASTER_HEAD     3
+#define PARAM_MASTER_EXTERNAL 4
 
+typedef struct{
+	uint8_t  master;
+	uint16_t sub;
+	uint16_t pwm;
+	uint16_t loopCounter;
+	uint32_t sleepTime;
+	uint8_t  remainOn;
+} params;
+
+#endif

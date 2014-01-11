@@ -1,3 +1,6 @@
+#ifndef LED_H_
+#define LED_H_
+
 #define nLEDs 18
 #define LEFT_BOTTOM          0
 #define LEFT_MIDDLE          1
@@ -11,3 +14,5 @@
 #define CIRCLE_RIGHT_TOP     9
 #define HEAD_RED            10
 #define EXTERNAL            11
+
+#endif
