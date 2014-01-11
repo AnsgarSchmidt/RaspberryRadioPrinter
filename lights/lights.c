@@ -46,7 +46,11 @@ int main(int argc, char *argv[]){
       break;
   }
   
-  if(para.remainOn == 0) {
+  if(para.remainOn == 1) {
+    para.master = PARAM_MASTER_ALL;
+    para.sub    = PARAM_SUB_ON;
+    anim_all(para);
+  }else{
    clearWS2803(); 
   }
   

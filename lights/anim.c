@@ -13,27 +13,25 @@ void anim_all(params para)
 	
   switch(para.sub)
   {
-	case 0: // OFF
+	case PARAM_SUB_OFF:
 	  clearWS2803();
 	  break;
-	case 1: // ON
+	case PARAM_SUB_ON:
       for(index = 0; index < nLEDs; index++){
         led[index] = (uint8_t)(0xFF & para.pwm);
       }	  
       loadWS2803(led);
 	  break;
-	case 2: // BLINK
+	case PARAM_SUB_BLINK:
 	  for(loop=0;loop < para.loopCounter; loop++){
         for(index = 0; index < nLEDs; index++){ 
 			led[index] = (uint8_t)(0xFF & para.pwm); 
 		}	         
         loadWS2803(led);	 
-        usleep(para.sleepTime); 
+        usleep(1000 * para.sleepTime); 
   	    clearWS2803();
-        usleep(para.sleepTime);         
+        usleep(1000 * para.sleepTime);         
       }
-	  break;
-	case 3:
 	  break;
 	default:
 	  break;

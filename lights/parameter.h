@@ -15,6 +15,10 @@
 #define PARAM_MASTER_HEAD     3
 #define PARAM_MASTER_EXTERNAL 4
 
+#define PARAM_SUB_OFF   0
+#define PARAM_SUB_ON    1
+#define PARAM_SUB_BLINK 2
+
 typedef struct{
 	uint8_t  master;
 	uint16_t sub;
