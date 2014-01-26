@@ -8,7 +8,7 @@
 #define CIRCLE_LEFT_BOTTOM    7
 #define CIRCLE_LEFT_TOP       8
 
-#define HEAD_RED             10
+#define HEAD                 10
 #define EXTERNAL             11
 
 #define LEFT_BOTTOM          12
