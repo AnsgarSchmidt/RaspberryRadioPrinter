@@ -20,6 +20,9 @@
 #define PARAM_SUB_BLINK              2
 #define PARAM_SUB_CLOCK_WISE         3
 #define PARAM_SUB_COUNTER_CLOCK_WISE 4
+#define PARAM_SUB_FADE               5
+#define PARAM_SUB_FADE_CW            6
+#define PARAM_SUB_FADE_CCW           7
 
 typedef struct{
 	uint8_t  master;

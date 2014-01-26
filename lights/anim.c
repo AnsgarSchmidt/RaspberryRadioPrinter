@@ -64,6 +64,40 @@ void anim_all(params para)
 		  }
 	  }	
 	  break;
+	case PARAM_SUB_FADE:
+	  for(loop=0;loop < para.loopCounter; loop++){
+		  for(loop2=0;loop2<100;loop2++){
+				for(index = 0; index < nLEDs;index++){
+					led[index] = (uint8_t)(0xFF & ((para.pwm/100)*loop2));
+				}
+				loadWS2803(led);
+				usleep((1000 * para.sleepTime)/(100 * 2));         		  		  
+			}
+		  for(loop2=0;loop2<100;loop2++){
+				for(index = 0; index < nLEDs;index++){
+					led[index] = (uint8_t)(0xFF & ((para.pwm/100)*(100-loop2)));
+				}
+				loadWS2803(led);
+				usleep((1000 * para.sleepTime)/(100 * 2));         		  		  
+			}
+	  }
+	  break;  
+	case PARAM_SUB_FADE_CW:
+	  for(loop=0;loop < para.loopCounter; loop++)
+	  {
+		  for(loop2=0; loop2<arraysize(ledCW);loop2++){
+			  for(index = 0; index < nLEDs;index++)
+			  {
+  				led[index] = 0;
+			  }
+        led[ledCW[(loop2 + arraysize(ledCW) - 0) % arraysize(ledCW)]] = (uint8_t)(0xFF & ((uint8_t)(para.pwm /  1.0 )));			  
+        led[ledCW[(loop2 + arraysize(ledCW) - 1) % arraysize(ledCW)]] = (uint8_t)(0xFF & ((uint8_t)(para.pwm /  5.0 )));			  
+        led[ledCW[(loop2 + arraysize(ledCW) - 2) % arraysize(ledCW)]] = (uint8_t)(0xFF & ((uint8_t)(para.pwm / 10.0 )));			  
+			  loadWS2803(led);
+			  usleep(1000 * para.sleepTime);         		  		  
+		  }
+	  }
+	  break;
 	default:
 	  break;
   }
