@@ -24,7 +24,6 @@
 #define PARAM_SUB_FADE_CW            6
 #define PARAM_SUB_FADE_CCW           7
 #define PARAM_SUB_UP                 8
-#define PARAM_SUB_FADE_UP            9
 
 typedef struct{
 	uint8_t  master;
