@@ -138,7 +138,146 @@ void anim_all(params para)
 
 void anim_circle(params para)
 {
-	
+	uint8_t index;
+	uint8_t loop;
+	uint8_t loop2;
+  uint8_t circleAll[] = {CIRCLE_LEFT_BOTTOM,  CIRCLE_RIGHT_BOTTOM, CIRCLE_LEFT_TOP,  CIRCLE_RIGHT_TOP};
+  uint8_t circleCW[]  = {CIRCLE_LEFT_BOTTOM,  CIRCLE_LEFT_TOP,     CIRCLE_RIGHT_TOP, CIRCLE_RIGHT_BOTTOM};
+  uint8_t circleCCW[] = {CIRCLE_RIGHT_BOTTOM, CIRCLE_RIGHT_TOP,    CIRCLE_LEFT_TOP,  CIRCLE_LEFT_BOTTOM};
+  uint8_t circleUp[]  = {CIRCLE_LEFT_BOTTOM,  CIRCLE_RIGHT_BOTTOM, CIRCLE_LEFT_TOP,  CIRCLE_RIGHT_TOP};    
+  uint8_t led[nLEDs];
+
+  switch(para.sub)
+  {
+	case PARAM_SUB_OFF:
+	  clearWS2803();
+	  break;
+	case PARAM_SUB_ON:
+	  clearWS2803();
+	  for(index = 0; index < nLEDs; index++){
+		  led[index] = 0;
+		}
+    for(index = 0; index < arraysize(circleAll); index++){
+      led[circleAll[index]] = (uint8_t)(0xFF & para.pwm);
+    }	 
+    loadWS2803(led);
+	  break;
+	case PARAM_SUB_BLINK:
+	  for(loop=0;loop < para.loopCounter; loop++){
+        for(index = 0; index < nLEDs; index++){ 
+					led[index] = 0;
+				}
+				for(index = 0; index < arraysize(circleAll);index++){
+		     	led[circleAll[index]] = (uint8_t)(0xFF & para.pwm); 
+    		}	         
+        loadWS2803(led);	 
+        usleep(1000 * para.sleepTime); 
+  	    clearWS2803();
+        usleep(1000 * para.sleepTime);         
+      }
+	  break;
+	case PARAM_SUB_CLOCK_WISE:
+	  for(loop=0;loop < para.loopCounter; loop++)
+	  {
+		  for(loop2=0; loop2< arraysize(circleCW);loop2++){
+			  for(index = 0; index < nLEDs;index++)
+			  {
+  				led[index] = 0;
+			  }
+        led[circleCW[loop2]] = (uint8_t)(0xFF & para.pwm);			  
+			  loadWS2803(led);
+			  usleep(1000 * para.sleepTime);         		  		  
+		  }
+	  }
+	  break;
+	case PARAM_SUB_COUNTER_CLOCK_WISE:
+	  for(loop=0;loop < para.loopCounter; loop++)
+	  {
+		  for(loop2=0; loop2 < arraysize(circleCCW)+1;loop2++){
+			  for(index = 0; index < nLEDs;index++)
+			  {
+ 				  led[index] = 0;
+			  }
+        led[circleCW[arraysize(circleCW) - loop2]] = (uint8_t)(0xFF & para.pwm);			  
+			  loadWS2803(led);
+			  usleep(1000 * para.sleepTime);         		  		  
+		  }
+	  }	
+	  break;
+	case PARAM_SUB_FADE:
+	  for(loop=0;loop < para.loopCounter; loop++){
+		  for(loop2=0;loop2<100;loop2++){
+				for(index = 0; index < nLEDs; index++){
+					led[index] = 0;
+				}
+				for(index = 0; index < arraysize(circleAll); index++){
+					led[circleAll[index]] = (uint8_t)(0xFF & ((para.pwm/100)*loop2));
+				}
+				loadWS2803(led);
+				usleep((1000 * para.sleepTime)/(100 * 2));         		  		  
+			}
+		  for(loop2=0;loop2<100;loop2++){
+				for(index = 0; index < nLEDs; index++){
+					led[index] = 0;
+				}				
+				for(index = 0; index < arraysize(circleAll);index++){
+					led[circleAll[index]] = (uint8_t)(0xFF & ((para.pwm/100)*(100-loop2)));
+				}
+				loadWS2803(led);
+				usleep((1000 * para.sleepTime)/(100 * 2));         		  		  
+			}
+	  }
+	  break;  
+	case PARAM_SUB_FADE_CW:
+	  for(loop=0;loop < para.loopCounter; loop++)
+	  {
+		  for(loop2=0; loop2<arraysize(circleCW);loop2++){
+			  for(index = 0; index < nLEDs;index++)
+			  {
+  				led[index] = 0;
+			  }
+        led[circleCW[(loop2 + arraysize(circleCW) - 0) % arraysize(circleCW)]] = (uint8_t)(0xFF & ((uint8_t)(para.pwm /  1.0 )));			  
+        led[circleCW[(loop2 + arraysize(circleCW) - 1) % arraysize(circleCW)]] = (uint8_t)(0xFF & ((uint8_t)(para.pwm /  5.0 )));			  
+        led[circleCW[(loop2 + arraysize(circleCW) - 2) % arraysize(circleCW)]] = (uint8_t)(0xFF & ((uint8_t)(para.pwm / 10.0 )));			  
+			  loadWS2803(led);
+			  usleep(1000 * para.sleepTime);         		  		  
+		  }
+	  }
+	  break;
+	case PARAM_SUB_FADE_CCW:
+	  for(loop=0;loop < para.loopCounter; loop++)
+	  {
+		  for(loop2=0; loop2<arraysize(circleCCW);loop2++){
+			  for(index = 0; index < nLEDs;index++)
+			  {
+  				led[index] = 0;
+			  }
+        led[circleCCW[(loop2 + arraysize(circleCCW) - 0) % arraysize(circleCCW)]] = (uint8_t)(0xFF & ((uint8_t)(para.pwm /  1.0 )));			  
+        led[circleCCW[(loop2 + arraysize(circleCCW) - 1) % arraysize(circleCCW)]] = (uint8_t)(0xFF & ((uint8_t)(para.pwm /  5.0 )));			  
+        led[circleCCW[(loop2 + arraysize(circleCCW) - 2) % arraysize(circleCCW)]] = (uint8_t)(0xFF & ((uint8_t)(para.pwm / 10.0 )));			  
+			  loadWS2803(led);
+			  usleep(1000 * para.sleepTime);         		  		  
+		  }
+	  }
+	  break;	  
+	case PARAM_SUB_UP:
+	  for(loop=0;loop < para.loopCounter; loop++)
+	  {
+		  for(loop2=0; loop2<arraysize(circleUp);loop2+=2){
+				for(index=0; index<nLEDs; index++){
+					led[index] = 0;
+				}
+				for(index=0; index<loop2+2; index++){					
+          led[circleUp[index]] = (uint8_t)(0xFF & para.pwm);			  
+			  }
+			  loadWS2803(led);
+			  usleep(1000 * para.sleepTime);         		  		  
+		  }			
+    }	  
+	  break;
+	default:
+	  break;
+  }	
 }
 
 void anim_suround(params para)
@@ -282,8 +421,7 @@ void anim_suround(params para)
 	  break;
 	default:
 	  break;
-  }
-	
+  }	
 }
 
 void anim_head(params para)
