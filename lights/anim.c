@@ -426,7 +426,64 @@ void anim_suround(params para)
 
 void anim_head(params para)
 {
-	
+	uint8_t index;
+	uint8_t loop;
+	uint8_t loop2;
+  uint8_t led[nLEDs];
+
+  switch(para.sub)
+  {
+	case PARAM_SUB_OFF:
+	  clearWS2803();
+	  break;
+	case PARAM_SUB_ON:
+	  clearWS2803();
+	  for(index = 0; index < nLEDs; index++){
+		  led[index] = 0;
+		}
+    led[HEAD] = (uint8_t)(0xFF & para.pwm);
+    loadWS2803(led);
+	  break;
+	case PARAM_SUB_BLINK:
+	case PARAM_SUB_UP:
+	case PARAM_SUB_CLOCK_WISE:
+	case PARAM_SUB_COUNTER_CLOCK_WISE:
+	  for(loop=0;loop < para.loopCounter; loop++){
+        for(index = 0; index < nLEDs; index++){ 
+					led[index] = 0;
+				}
+				led[HEAD] = (uint8_t)(0xFF & para.pwm); 
+        loadWS2803(led);	 
+        usleep(1000 * para.sleepTime); 
+  	    clearWS2803();
+        usleep(1000 * para.sleepTime);         
+      }
+	  break;
+	case PARAM_SUB_FADE:
+	case PARAM_SUB_FADE_CW:
+	case PARAM_SUB_FADE_CCW:
+	  for(loop=0;loop < para.loopCounter; loop++){
+		  for(loop2=0;loop2<100;loop2++){
+				for(index = 0; index < nLEDs; index++){
+					led[index] = 0;
+				}
+				led[HEAD] = (uint8_t)(0xFF & ((para.pwm/100)*loop2));
+				loadWS2803(led);
+				usleep((1000 * para.sleepTime)/(100 * 2));         		  		  
+			}
+		  for(loop2=0;loop2<100;loop2++){
+				for(index = 0; index < nLEDs; index++){
+					led[index] = 0;
+				}				
+				led[HEAD] = (uint8_t)(0xFF & ((para.pwm/100)*(100-loop2)));
+				loadWS2803(led);
+				usleep((1000 * para.sleepTime)/(100 * 2));         		  		  
+			}
+	  }
+	  break;  
+	default:
+	  break;
+  }		
 }
 
 void anim_external(params para)
