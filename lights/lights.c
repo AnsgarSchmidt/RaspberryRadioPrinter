@@ -29,28 +29,44 @@ int main(int argc, char *argv[]){
   switch(para.master){
     case PARAM_MASTER_ALL:
       anim_all(para);
+      if(para.remainOn == 1) {
+       para.sub = PARAM_SUB_ON;
+       anim_all(para);
+      }
       break;
     case PARAM_MASTER_CIRCLE:
       anim_circle(para);
+      if(para.remainOn == 1) {
+       para.sub = PARAM_SUB_ON;
+       anim_circle(para);
+      }
       break;
     case PARAM_MASTER_SURROUND:
       anim_suround(para);
+      if(para.remainOn == 1) {
+       para.sub = PARAM_SUB_ON;
+       anim_suround(para);
+      }
       break;
     case PARAM_MASTER_HEAD:
       anim_head(para);
+      if(para.remainOn == 1) {
+       para.sub = PARAM_SUB_ON;
+       anim_head(para);
+      }
       break;
     case PARAM_MASTER_EXTERNAL:
       anim_external(para);
+      if(para.remainOn == 1) {
+       para.sub    = PARAM_SUB_ON;
+       anim_external(para);
+      }
       break;
     default:      
       break;
   }
   
-  if(para.remainOn == 1) {
-    para.master = PARAM_MASTER_ALL;
-    para.sub    = PARAM_SUB_ON;
-    anim_all(para);
-  }else{
+  if(para.remainOn == 0) {
    clearWS2803(); 
   }
   
